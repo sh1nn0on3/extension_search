@@ -1,4 +1,3 @@
-console.log("hello devtool");
 
 const apiLogin = "https://web.giaohangtietkiem.vn/api/v1/auth/login";
 const apiInfoOrder = "https://web.giaohangtietkiem.vn/api/v1/package/list-v3";
@@ -22,7 +21,7 @@ const funcLogin = async (data) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data.data.shop_token);
+     
       if (!data.data.shop_token) {
         throw new Error("Network response was not ok " + response.statusText);
       }
@@ -44,15 +43,16 @@ const funcLogin = async (data) => {
 
 // localStorage.setItem
 const dataOrderLocal = JSON.parse(localStorage.getItem("dataOrder"));
+const dataUserLocal = JSON.parse(localStorage.getItem("dataUser"));
 if (dataOrderLocal) {
   count_ouders = dataOrderLocal.count;
+  document.getElementById("name_user").innerHTML = dataUserLocal.data.fullname;
   document.getElementById("count_order").innerHTML = count_ouders;
   countAndDisplayStatuses(dataOrderLocal.data, "statusCountContainer");
 }
 
 //
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("Popup DOM loaded and parsed");
 
   if (localStorage.getItem("Stoken")) {
     document.getElementById("login-form").style.display = "none";
@@ -155,7 +155,6 @@ const infoUser = async (token) => {
       return false;
     });
 
-  console.log("🚀 ~ infoUser ~ dataResponse:", dataResponse);
 
   const data = await fetch(apiInfoUser, {
     method: "GET",
@@ -178,7 +177,6 @@ const infoUser = async (token) => {
       );
       return false;
     });
-  console.log("🚀 ~ infoUser ~ data:", data);
   return data;
 };
 

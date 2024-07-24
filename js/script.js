@@ -1,5 +1,4 @@
 // content.js
-console.log("hello");
 
 let codeLabel = "";
 let Stoken = "";
@@ -14,7 +13,6 @@ document.addEventListener("mouseup", function (event) {
 
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.data) {
-    console.log("Received data:", message.data);
     Stoken = message.data.token;
     localStorage.setItem("Stoken", Stoken);
   }
@@ -26,16 +24,13 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   }
 
   if (message.command === "createOrder") {
-    console.log(codeLabel);
     console.log("Create order");
   }
 });
 
 const getInfoStatus = async (token, codeLabel) => {
-  console.log("🚀 ~ getInfoStatus ~ token:", token);
   const apiUrl = `https://bypasscors.vercel.app/api/proxy?url=https://services.giaohangtietkiem.vn/services/shipment/v2/${codeLabel}&token=${token}`;
   const data = await fetchData(apiUrl);
-  console.log("🚀 ~ getInfoStatus ~ data:", data);
   createPopup(data, eventX, eventY);
   return data;
 };
