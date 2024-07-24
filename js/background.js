@@ -1,18 +1,39 @@
 // background.js
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
-    id: "myContextMenu",
-    title: "My Custom Menu",
+    id: "contextMenuParent",
+    title: "GHTK Extension",
+    contexts: ["all"],
+  });
+
+  chrome.contextMenus.create({
+    id: "createOrder",
+    parentId: "contextMenuParent",
+    title: "Tạo đơn hàng",
+    contexts: ["all"],
+  });
+
+  chrome.contextMenus.create({
+    id: "getOrder",
+    parentId: "contextMenuParent",
+    title: "Tìm kiếm đơn hàng",
     contexts: ["all"],
   });
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  console.log("🚀 ~ chrome.contextMenus.onClicked.addListener ~ tab:", tab)
-  console.log("🚀 ~ chrome.contextMenus.onClicked.addListener ~ info:", info )
-  if (info.menuItemId === "myContextMenu") {
+  if (info.menuItemId === "getOrder") {
     chrome.tabs.sendMessage(tab.id, {
       command: "logSelection",
+      selectionText: info.selectionText,
+    });
+  }
+});
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === "createOrder") {
+    chrome.tabs.sendMessage(tab.id, {
+      command: "createOrder",
       selectionText: info.selectionText,
     });
   }
