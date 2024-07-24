@@ -75,16 +75,15 @@ document.addEventListener("DOMContentLoaded", function () {
           username: username,
           password: password,
         };
-        const { token, jwt } = await funcLogin(data);
-        const dataOrder = await infoOrder(jwt);
-        const dataUser = await infoUser(jwt);
+        const token = await funcLogin(data);
+        const dataOrder = await infoOrder(token.jwt);
+        const dataUser = await infoUser(token.jwt);
         // const dataUser = { data: { fullname: "GHTK" } };
         localStorage.setItem("dataUser", JSON.stringify(dataUser));
         localStorage.setItem("dataOrder", JSON.stringify(dataOrder));
         if (token) {
           document.getElementById("login-form").style.display = "none";
-          document.getElementById("name_user").innerHTML =
-            dataUser.data.fullname;
+          document.getElementById("name_user").innerHTML = dataUser.data.fullname;
           document.getElementById("count_order").innerHTML = dataOrder.count;
           countAndDisplayStatuses(dataOrderLocal.data, "statusCountContainer");
           document.getElementById("logout-container").style.display = "block";
